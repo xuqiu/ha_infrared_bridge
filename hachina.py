@@ -1,21 +1,38 @@
 """
 文件名 hachina.py.
 
-演示程序，增加设备的属性值.
+演示程序，注册一个服务.
 """
 
-# HomeAssistant的惯例，会在组件程序中定义域，域与组件程序名相同
+# 引入记录日志的库
+import logging
+
 DOMAIN = "hachina"
+ENTITYID = DOMAIN + ".hello_world"
+
+# 在python中，__name__代表模块名字
+_LOGGER = logging.getLogger(__name__)
 
 
 def setup(hass, config):
-    """配置文件加载后，被调用的程序."""
-    # 准备一些属性值，在给实体设置状态的同时，设置实体的这些属性
+    """配置文件加载后，setup被系统调用."""
     attr = {"icon": "mdi:yin-yang",
             "friendly_name": "迎接新世界",
-            "slogon": "积木构建智慧空间！"}
+            "slogon": "积木构建智慧空间！", }
+    hass.states.set(ENTITYID, '太棒了', attributes=attr)
 
-    # 使用了在程序开头预定义的域
-    # 设置状态的同时，设置实体的属性
-    hass.states.set(DOMAIN+".hello_world", "太棒了！", attributes=attr)
+    def change_state(call):
+        """change_state函数切换改变实体的状态."""
+        # 记录info级别的日志
+        _LOGGER.info("hachina's change_state service is called.")
+
+        # 切换改变状态值
+        if hass.states.get(ENTITYID).state == '太棒了':
+            hass.states.set(ENTITYID, '真好', attributes=attr)
+        else:
+            hass.states.set(ENTITYID, '太棒了', attributes=attr)
+
+    # 注册服务hachina.change_state
+    hass.services.register(DOMAIN, 'change_state', change_state)
+
     return True

@@ -42,6 +42,8 @@ while true;do
     echo $asr_content
     echo ""
     echo $res_content
+    echo ""
+    echo $keywords
  
     # 如果拦截词不为空,且匹配到了拦截词则试图拦截
  

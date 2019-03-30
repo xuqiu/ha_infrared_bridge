@@ -39,9 +39,9 @@ while true;do
     # 获取res内容
     res_content=`cat $res_file`
   
-    # echo $asr_content
-    # echo ""
-    # echo $res_content
+    echo $asr_content
+    echo ""
+    echo $res_content
  
     # 如果拦截词不为空,且匹配到了拦截词则试图拦截
  
